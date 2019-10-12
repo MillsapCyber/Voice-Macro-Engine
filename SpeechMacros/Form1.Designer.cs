@@ -28,7 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // Form1
             // 
@@ -36,15 +45,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(237, 66);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Voice Macro";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.Text = "Voice Macro Engine";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 
