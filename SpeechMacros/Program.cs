@@ -24,7 +24,7 @@ namespace SpeechMacros {
     }
      class Program {
         public static SpeechRecognitionEngine speechRecognizer = new SpeechRecognitionEngine();
-        public static List<Action> d = new List<Action>();
+        public static List<Action> globalActionObjectList = new List<Action>();
         [STAThread]
         static void Main() {
             //List<Action> d = new List<Action>();
@@ -36,19 +36,19 @@ namespace SpeechMacros {
             a.actionList.Add(tmp);
             tmp = (Action.actionType.keyDown, "Hello World");
             a.actionList.Add(tmp);
-            d.Add(a);
+            globalActionObjectList.Add(a);
             //stop building first action
             a = new Action("end");
             tmp = (Action.actionType.keyDown, "{ESC}");
             a.actionList.Add(tmp);
-            d.Add(a);
+            globalActionObjectList.Add(a);
             a = new Action("telegram");
-            d.Add(a);
+            globalActionObjectList.Add(a);
             ProcessStartInfo procStart = new ProcessStartInfo();
             speechRecognizer.SpeechRecognized += speechRecognizer_SpeechRecognized;
             speechRecognizer.SetInputToDefaultAudioDevice();
             GrammarBuilder grammarBuilder = new GrammarBuilder();
-            Choices triggerWords = new Choices(parseGramar(d));
+            Choices triggerWords = new Choices(parseGramar(globalActionObjectList));
             grammarBuilder.Append(triggerWords);
             speechRecognizer.LoadGrammar(new Grammar(grammarBuilder));
             //double weight, if you don't do this you'll have tons of false positives
@@ -65,8 +65,8 @@ namespace SpeechMacros {
             }
             return tmp.ToArray();
         }
-        private static void runMacro(List<(Action.actionType type, string aciton)> t) {
-            foreach(var i in t) {
+        private static void runMacro(List<(Action.actionType type, string aciton)> actions) {
+            foreach(var i in actions) {
                 switch (i.type) {
                     case Action.actionType.keyDown:
                         SendKeys.SendWait(i.aciton);
@@ -101,15 +101,14 @@ namespace SpeechMacros {
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
             }
-
-        }
+       }
         private static void speechRecognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e) {
             string command = e.Result.Words[0].Text.ToLower();
             Console.WriteLine(e.Result.Words[0].Confidence + command);
             if (e.Result.Words[0].Confidence < 0.85f) {
                 return;
             }
-            foreach (var i in d) {
+            foreach (var i in globalActionObjectList) {
                 if (i.triggerWord == command) {
                     Console.WriteLine("found valid command " + command);
                     if (i.actionList.Count > 0) {
@@ -118,5 +117,5 @@ namespace SpeechMacros {
                 }
             }
         }
-    }
+     }
 }
