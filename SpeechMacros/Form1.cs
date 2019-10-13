@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Windows.Input;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Speech.Recognition;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SpeechMacros {
@@ -57,9 +49,9 @@ namespace SpeechMacros {
             WindowState = FormWindowState.Normal;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) {
+        //private void textBox1_TextChanged(object sender, EventArgs e) {
 
-        }
+        //}
 
         private void SetHotkeyButton_Click(object sender, EventArgs e) {
             try {
@@ -72,7 +64,7 @@ namespace SpeechMacros {
                 gkh = new KeyHandler(mykey, this);
                 gkh.Register();
             }
-            catch (ArgumentException) {
+            catch (Exception) {
                 MessageBox.Show("Please try a real key");
             }
             hotkeyInput.Text = "";
