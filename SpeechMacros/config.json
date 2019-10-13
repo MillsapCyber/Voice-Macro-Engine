@@ -1,0 +1,1 @@
+{"defaultHotkey":"F1","alwaysListening":false,"actionObjectList":[{"triggerWord":"begin","programPath":"","actionList":[{"Item1":0,"Item2":"^{ESC}"},{"Item1":2,"Item2":"1000"},{"Item1":0,"Item2":"Hello World"}]},{"triggerWord":"end","programPath":"","actionList":[{"Item1":0,"Item2":"{ESC}"}]},{"triggerWord":"telegram","programPath":"","actionList":[]}]}

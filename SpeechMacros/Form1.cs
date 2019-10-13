@@ -5,8 +5,27 @@ using System.Windows.Forms;
 namespace SpeechMacros {
     public partial class Form1 : Form {
         private KeyHandler gkh;
-        public Form1() {
+        private void setHotkey(string key) {
+            try {
+                if (gkh != null) {
+                    gkh.Unregiser();
+                }
+                KeysConverter kc = new KeysConverter();
+                Keys mykey = (Keys)kc.ConvertFromString(key);
+                gkh = new KeyHandler(mykey, this);
+                gkh.Register();
+            }
+            catch (Exception) {
+                MessageBox.Show("Please try a real key");
+            }
+
+        }
+        public Form1() {    
             InitializeComponent();
+            setHotkey(Program.globalConfig.defaultHotkey);
+            if (Program.globalConfig.alwaysListening) {
+                Program.speechRecognizer.RecognizeAsync(RecognizeMode.Multiple);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e) {
@@ -17,9 +36,6 @@ namespace SpeechMacros {
 
         }
 
-        private void button1_Click(object sender, EventArgs e) {
-
-        }
         private void HandleHotkey() {
             Program.speechRecognizer.RecognizeAsync(RecognizeMode.Single);
         }
@@ -54,19 +70,7 @@ namespace SpeechMacros {
         //}
 
         private void SetHotkeyButton_Click(object sender, EventArgs e) {
-            try {
-                if (gkh != null) {
-                    gkh.Unregiser();
-                }
-                KeysConverter kc = new KeysConverter();
-                var testkey = Keys.F11;
-                Keys mykey = (Keys)kc.ConvertFromString(hotkeyInput.Text);
-                gkh = new KeyHandler(mykey, this);
-                gkh.Register();
-            }
-            catch (Exception) {
-                MessageBox.Show("Please try a real key");
-            }
+            setHotkey(hotkeyInput.Text);
             hotkeyInput.Text = "";
         }
     }

@@ -4,8 +4,21 @@ using System.Diagnostics;
 using System.Speech.Recognition;
 using System.Threading;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace SpeechMacros {
+    public class Config {
+        public string defaultHotkey { get; set; }
+        public bool alwaysListening { get; set; }
+        public List<Action> actionObjectList { get; set; }
+        public Config(string dhk, bool alb, List<Action> al) {
+            defaultHotkey = dhk;
+            alwaysListening = alb;
+            actionObjectList = al;
+        }
+
+    }
     public class Action {
         public string triggerWord { get; set; }
         public string programPath { get; set; }
@@ -24,31 +37,53 @@ namespace SpeechMacros {
     }
      class Program {
         public static SpeechRecognitionEngine speechRecognizer = new SpeechRecognitionEngine();
-        public static List<Action> globalActionObjectList = new List<Action>();
+        public static Config globalConfig;
+        //public static List<Action> globalActionObjectList = new List<Action>();
         [STAThread]
         static void Main() {
-            //List<Action> d = new List<Action>();
-            //start building first action
-            Action a = new Action("begin");
-            var tmp = (Action.actionType.keyDown, "^{ESC}");
-            a.actionList.Add(tmp);
-            tmp = (Action.actionType.waitStatic, "1000");
-            a.actionList.Add(tmp);
-            tmp = (Action.actionType.keyDown, "Hello World");
-            a.actionList.Add(tmp);
-            globalActionObjectList.Add(a);
-            //stop building first action
-            a = new Action("end");
-            tmp = (Action.actionType.keyDown, "{ESC}");
-            a.actionList.Add(tmp);
-            globalActionObjectList.Add(a);
-            a = new Action("telegram");
-            globalActionObjectList.Add(a);
+            string dir = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf("SpeechMacros")) + "SpeechMacros\\config.json";
+            try {
+                using (StreamReader file = File.OpenText(@dir)) {
+                    JsonSerializer serializer = new JsonSerializer();
+                    globalConfig = (Config)serializer.Deserialize(file, typeof(Config));
+                }
+            }
+            catch (Exception) {
+                Console.WriteLine("failed to load config file");
+            }
+
+            ////start building first action
+
+            //Action a = new Action("begin");
+            //var tmp = (Action.actionType.keyDown, "^{ESC}");
+            //a.actionList.Add(tmp);
+            //tmp = (Action.actionType.waitStatic, "1000");
+            //a.actionList.Add(tmp);
+            //tmp = (Action.actionType.keyDown, "Hello World");
+            //a.actionList.Add(tmp);
+            //globalActionObjectList.Add(a);
+
+            ////stop building first action
+
+            //a = new Action("end");
+            //tmp = (Action.actionType.keyDown, "{ESC}");
+            //a.actionList.Add(tmp);
+            //globalActionObjectList.Add(a);
+            //a = new Action("telegram");
+            //globalActionObjectList.Add(a);
+            //globalConfig = new Config("F1", false, globalActionObjectList);
+            ////Save file
+            //using (StreamWriter file = File.CreateText(@dir)) {
+            //    JsonSerializer serializer = new JsonSerializer();
+            //    //serialize object directly into file stream
+            //    serializer.Serialize(file, globalConfig);
+            //}
+
             ProcessStartInfo procStart = new ProcessStartInfo();
             speechRecognizer.SpeechRecognized += speechRecognizer_SpeechRecognized;
             speechRecognizer.SetInputToDefaultAudioDevice();
             GrammarBuilder grammarBuilder = new GrammarBuilder();
-            Choices triggerWords = new Choices(parseGramar(globalActionObjectList));
+            Choices triggerWords = new Choices(parseGramar(globalConfig.actionObjectList));
             grammarBuilder.Append(triggerWords);
             speechRecognizer.LoadGrammar(new Grammar(grammarBuilder));
             //double weight, if you don't do this you'll have tons of false positives
@@ -108,7 +143,7 @@ namespace SpeechMacros {
             if (e.Result.Words[0].Confidence < 0.85f) {
                 return;
             }
-            foreach (var i in globalActionObjectList) {
+            foreach (var i in globalConfig.actionObjectList) {
                 if (i.triggerWord == command) {
                     Console.WriteLine("found valid command " + command);
                     if (i.actionList.Count > 0) {
