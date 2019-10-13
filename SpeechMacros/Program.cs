@@ -42,6 +42,7 @@ namespace SpeechMacros {
         [STAThread]
         static void Main() {
             string dir = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf("SpeechMacros")) + "SpeechMacros\\config.json";
+            //load file
             try {
                 using (StreamReader file = File.OpenText(@dir)) {
                     JsonSerializer serializer = new JsonSerializer();
@@ -101,12 +102,15 @@ namespace SpeechMacros {
             return tmp.ToArray();
         }
         private static void runMacro(List<(Action.actionType type, string aciton)> actions) {
-            foreach(var i in actions) {
+            KeysConverter kc = new KeysConverter();
+            foreach (var i in actions) {
                 switch (i.type) {
                     case Action.actionType.keyDown:
-                        SendKeys.SendWait(i.aciton);
+                        //SendKeys.SendWait(i.aciton);
+                        KeyHandler.keyDown((byte)(Keys)kc.ConvertFromString(i.aciton));
                         break;
                     case Action.actionType.keyUp:
+                        KeyHandler.keyUp((byte)(Keys)kc.ConvertFromString(i.aciton));
                         break;
                     case Action.actionType.waitStatic:
                         Thread.Sleep(Int32.Parse(i.aciton));

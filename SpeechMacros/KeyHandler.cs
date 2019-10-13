@@ -30,4 +30,23 @@ public class KeyHandler {
     public bool Unregiser() {
         return UnregisterHotKey(hWnd, id);
     }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
+
+    const int KEY_DOWN_EVENT = 0x0001; //Key down flag
+    const int KEY_UP_EVENT = 0x0002; //Key up flag
+
+    public static void keyDown(byte key) {
+        keybd_event(key, 0, KEY_DOWN_EVENT, 0);
+    }
+    public static void keyUp(byte key) {
+        keybd_event(key, 0, KEY_UP_EVENT, 0);
+    }
+    public static void HoldKey(byte key, int duration) {
+        keybd_event(key, 0, KEY_DOWN_EVENT, 0);
+        System.Threading.Thread.Sleep(duration);
+        keybd_event(key, 0, KEY_UP_EVENT, 0);
+    }
+
 }
