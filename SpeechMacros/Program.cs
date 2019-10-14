@@ -22,13 +22,15 @@ namespace SpeechMacros {
     public class Action {
         public string triggerWord { get; set; }
         public string programPath { get; set; }
+        public string programArgs { get; set; }
+        public string programTarget { get; set; }
+        public List<(actionType type, string aciton)> actionList { get; set; }
         public enum actionType {
             keyDown,
             keyUp,
             waitStatic,
             waitRandom
         }
-        public List<(actionType type, string aciton)> actionList { get; set; }
         public Action(string trigger) {
             triggerWord = trigger;
             programPath = "";
@@ -123,6 +125,22 @@ namespace SpeechMacros {
             }
         }
 
+        private static void runInjection(List<(Action.actionType type, string aciton)> actions, string target) {
+            KeysConverter kc = new KeysConverter();
+            foreach (var i in actions) {
+                switch (i.type) {
+                    case Action.actionType.keyDown:
+                        KeyHandler.injectKeystroke(target, true, (byte)(Keys)kc.ConvertFromString(i.aciton));
+                        break;
+                    case Action.actionType.keyUp:
+                        KeyHandler.injectKeystroke(target, false, (byte)(Keys)kc.ConvertFromString(i.aciton));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
        private static void runExternalProgram(string Args, string Program) {
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -150,7 +168,13 @@ namespace SpeechMacros {
             foreach (var i in globalConfig.actionObjectList) {
                 if (i.triggerWord == command) {
                     Console.WriteLine("found valid command " + command);
-                    if (i.actionList.Count > 0) {
+                    if (i.programTarget != "" && i.actionList.Count > 0) {
+                        runInjection(i.actionList, i.programTarget);
+                    }
+                    else if (i.programPath != "") {
+                        runExternalProgram(i.programArgs, i.programPath);
+                    }
+                    else if (i.actionList.Count > 0) {
                         runMacro(i.actionList);
                     }
                 }

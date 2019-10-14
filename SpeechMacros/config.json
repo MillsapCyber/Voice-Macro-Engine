@@ -5,6 +5,8 @@
         {
             "triggerWord": "begin",
             "programPath": "",
+            "programArgs": "",
+            "programTarget": "",
             "actionList": [
                 {
                     "Item1": 0,
@@ -23,6 +25,8 @@
         {
             "triggerWord": "end",
             "programPath": "",
+            "programArgs": "",
+            "programTarget": "",
             "actionList": [
                 {
                     "Item1": 0,
@@ -33,6 +37,8 @@
         {
             "triggerWord": "test",
             "programPath": "",
+            "programArgs": "",
+            "programTarget": "notepad",
             "actionList": [
                 {
                     "Item1": 0,
@@ -42,7 +48,9 @@
         },
         {
             "triggerWord": "telegram",
-            "programPath": "",
+            "programPath": "C:\\Users\\jammi\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe",
+            "programArgs": "",
+            "programTarget": "",
             "actionList": []
         }
     ]

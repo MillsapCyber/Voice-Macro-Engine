@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Speech.Recognition;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SpeechMacros {
@@ -72,6 +73,13 @@ namespace SpeechMacros {
         private void SetHotkeyButton_Click(object sender, EventArgs e) {
             setHotkey(hotkeyInput.Text);
             hotkeyInput.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            //KeysConverter kc = new KeysConverter();
+            //KeyHandler.injectKeystroke("notepad", true, (byte)(Keys)kc.ConvertFromString("A"));
+            //Thread.Sleep(2000);
+            //KeyHandler.keyDown((byte)(Keys)kc.ConvertFromString("A"));
         }
     }
 }
