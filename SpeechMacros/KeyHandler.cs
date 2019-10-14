@@ -34,16 +34,20 @@ public class KeyHandler {
         return UnregisterHotKey(hWnd, id);
     }
 
-    [DllImport("User32.dll")]
+    [DllImport("user32.dll")]
     static extern int SetForegroundWindow(IntPtr point);
 
-    public static void injectKeystroke(string appTargetNameName, bool isDown, byte key) {
-        Process target = Process.GetProcessesByName(appTargetNameName).FirstOrDefault();
+    public static void injectKeystroke(string appTargetName, bool isDown, byte key) {
+        Process target = Process.GetProcessesByName(appTargetName).FirstOrDefault();
         Process current = Process.GetProcessesByName(getCurrentAppName()).FirstOrDefault();
         if (target != null) {
             IntPtr targetHandle = target.MainWindowHandle;
-            IntPtr currentHandle = current.MainWindowHandle;
             SetForegroundWindow(targetHandle);
+            if (getCurrentAppName() != appTargetName) { 
+                Console.WriteLine("Did not switch to target app correctly. Falling back to ALT + TAB");
+                SendKeys.SendWait("%{Tab}");
+                Thread.Sleep(100);
+            }
             //must let windows catch up, can't switch context instantly
             Thread.Sleep(10);
             if (isDown) {
@@ -52,9 +56,20 @@ public class KeyHandler {
             else {
                 keyUp(key);
             }
-            SetForegroundWindow(currentHandle);
-        }
+            try {
+                IntPtr currentHandle = current.MainWindowHandle;
+                SetForegroundWindow(currentHandle);
+                if (getCurrentAppName() == appTargetName) { //Not sure why but sometimes this doesn't crash but still won't reset the original window
+                    Console.WriteLine("original app was not reset correctly. Falling back to ALT + TAB");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait("%{Tab}");
 
+                }
+            } catch { //Not sure why this fails sometimes but if it does do it the stupid way
+                Thread.Sleep(100);
+                SendKeys.SendWait("%{Tab}");
+            }
+        }
     }
     [DllImport("user32.dll")]
     public static extern IntPtr GetForegroundWindow();
@@ -66,6 +81,12 @@ public class KeyHandler {
         uint procId = 0;
         GetWindowThreadProcessId(hWnd, out procId);
         var proc = Process.GetProcessById((int)procId);
+        try {
+            Console.WriteLine("Current application: " + proc.MainModule.ModuleName.Substring(0, proc.MainModule.ModuleName.LastIndexOf(".exe")));
+        } catch {
+            Console.WriteLine("Current application: " + proc.MainModule.ModuleName);
+            return proc.MainModule.ModuleName;
+        }
         return proc.MainModule.ModuleName.Substring(0,proc.MainModule.ModuleName.LastIndexOf(".exe"));
     }
 

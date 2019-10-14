@@ -38,7 +38,7 @@
             "triggerWord": "test",
             "programPath": "",
             "programArgs": "",
-            "programTarget": "notepad",
+            "programTarget": "Code",
             "actionList": [
                 {
                     "Item1": 0,
