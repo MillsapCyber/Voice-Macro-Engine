@@ -77,7 +77,7 @@ namespace SpeechMacros {
 
         private void button1_Click(object sender, EventArgs e) {
             //KeysConverter kc = new KeysConverter();
-            //KeyHandler.injectKeystroke("notepad", true, (byte)(Keys)kc.ConvertFromString("A"));
+            //KeyHandler.injectKeystroke("Code", true, (byte)(Keys)kc.ConvertFromString("A"));
             //Thread.Sleep(2000);
             //KeyHandler.keyDown((byte)(Keys)kc.ConvertFromString("A"));
         }

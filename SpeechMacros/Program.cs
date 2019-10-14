@@ -94,7 +94,6 @@ namespace SpeechMacros {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-
         }
         private static string[] parseGramar(List<Action> data) {
             List<String> tmp = new List<String>();

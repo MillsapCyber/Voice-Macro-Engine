@@ -38,10 +38,26 @@ public class KeyHandler {
     static extern int SetForegroundWindow(IntPtr point);
 
     public static void injectKeystroke(string appTargetName, bool isDown, byte key) {
+        var targetParent = Process.GetProcessesByName(appTargetName);
+        var currentParent = Process.GetProcessesByName(getCurrentAppName());
         Process target = Process.GetProcessesByName(appTargetName).FirstOrDefault();
+        IntPtr targetHandle = target.MainWindowHandle;
         Process current = Process.GetProcessesByName(getCurrentAppName()).FirstOrDefault();
+        IntPtr currentHandle = current.MainWindowHandle;
+
+        foreach (var i in currentParent) {
+            if (i.MainWindowTitle != "") {
+                currentHandle = i.MainWindowHandle;
+                break;
+            }
+        }
         if (target != null) {
-            IntPtr targetHandle = target.MainWindowHandle;
+            foreach (var i in targetParent) {
+                if (i.MainWindowTitle != "") {
+                    targetHandle = i.MainWindowHandle;
+                    break;
+                }
+            }
             SetForegroundWindow(targetHandle);
             if (getCurrentAppName() != appTargetName) { 
                 Console.WriteLine("Did not switch to target app correctly. Falling back to ALT + TAB");
@@ -56,14 +72,12 @@ public class KeyHandler {
             else {
                 keyUp(key);
             }
-            try {
-                IntPtr currentHandle = current.MainWindowHandle;
+            try { 
                 SetForegroundWindow(currentHandle);
                 if (getCurrentAppName() == appTargetName) { //Not sure why but sometimes this doesn't crash but still won't reset the original window
                     Console.WriteLine("original app was not reset correctly. Falling back to ALT + TAB");
                     Thread.Sleep(100);
                     SendKeys.SendWait("%{Tab}");
-
                 }
             } catch { //Not sure why this fails sometimes but if it does do it the stupid way
                 Thread.Sleep(100);
