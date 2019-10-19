@@ -168,6 +168,8 @@ namespace SpeechMacros {
 
         private void saveConfigButton_Click(object sender, EventArgs e) {
             Program.saveConfig();
+            Application.Restart();
+            Environment.Exit(0);
         }
     }
 }
