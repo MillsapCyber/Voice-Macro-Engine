@@ -119,5 +119,55 @@ namespace SpeechMacros {
         private void programPathInput_TextChanged(object sender, EventArgs e) {
 
         }
+
+        private void setProgramPathButton_Click(object sender, EventArgs e) {
+            try {
+                if (programPathInput.Text == "") {
+                    MessageBox.Show("Please pick a word");
+                    return;
+                }
+                Program.globalConfig.actionObjectList[profileComboBox.SelectedIndex].programPath = programPathInput.Text;
+                programPathLabel.Text = "Program Path: " + programPathInput.Text;
+                programPathInput.Text = "";
+            }
+            catch (NullReferenceException) {
+                MessageBox.Show("Please select a profile");
+            }
+
+        }
+
+        private void triggerWordButton_Click(object sender, EventArgs e) {
+            try {
+                if (triggerWordInput.Text == "") {
+                    MessageBox.Show("Please pick a word");
+                    return;
+                }
+                Program.globalConfig.actionObjectList[profileComboBox.SelectedIndex].triggerWord = triggerWordInput.Text;
+                triggerWordLabel.Text = "Trigger Word: " + triggerWordInput.Text;
+                triggerWordInput.Text = "";
+            }
+            catch (NullReferenceException) {
+                MessageBox.Show("Please select a profile");
+            }
+        }
+
+        private void setProgramTargetButton_Click(object sender, EventArgs e) {
+            try {
+                if (programTargetInput.Text == "") {
+                    MessageBox.Show("Please pick a word");
+                    return;
+                }
+                Program.globalConfig.actionObjectList[profileComboBox.SelectedIndex].programTarget = programTargetInput.Text;
+                programTargetLabel.Text = "Program Target: " + programTargetInput.Text;
+                programTargetInput.Text = "";
+            }
+            catch (NullReferenceException) {
+                MessageBox.Show("Please select a profile");
+            }
+        }
+
+        private void saveConfigButton_Click(object sender, EventArgs e) {
+            Program.saveConfig();
+        }
     }
 }

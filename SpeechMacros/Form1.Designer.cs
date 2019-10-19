@@ -46,6 +46,7 @@
             this.triggerWordLabel = new System.Windows.Forms.Label();
             this.triggerWordButton = new System.Windows.Forms.Button();
             this.triggerWordInput = new System.Windows.Forms.TextBox();
+            this.saveConfigButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -164,6 +165,7 @@
             this.setProgramPathButton.TabIndex = 14;
             this.setProgramPathButton.Text = "Set Path";
             this.setProgramPathButton.UseVisualStyleBackColor = true;
+            this.setProgramPathButton.Click += new System.EventHandler(this.setProgramPathButton_Click);
             // 
             // setProgramTargetButton
             // 
@@ -173,6 +175,7 @@
             this.setProgramTargetButton.TabIndex = 15;
             this.setProgramTargetButton.Text = "Set Target";
             this.setProgramTargetButton.UseVisualStyleBackColor = true;
+            this.setProgramTargetButton.Click += new System.EventHandler(this.setProgramTargetButton_Click);
             // 
             // triggerWordLabel
             // 
@@ -192,6 +195,7 @@
             this.triggerWordButton.TabIndex = 17;
             this.triggerWordButton.Text = "Set Trigger Word";
             this.triggerWordButton.UseVisualStyleBackColor = true;
+            this.triggerWordButton.Click += new System.EventHandler(this.triggerWordButton_Click);
             // 
             // triggerWordInput
             // 
@@ -200,12 +204,23 @@
             this.triggerWordInput.Size = new System.Drawing.Size(166, 20);
             this.triggerWordInput.TabIndex = 18;
             // 
+            // saveConfigButton
+            // 
+            this.saveConfigButton.Location = new System.Drawing.Point(23, 274);
+            this.saveConfigButton.Name = "saveConfigButton";
+            this.saveConfigButton.Size = new System.Drawing.Size(75, 23);
+            this.saveConfigButton.TabIndex = 19;
+            this.saveConfigButton.Text = "Save Config";
+            this.saveConfigButton.UseVisualStyleBackColor = true;
+            this.saveConfigButton.Click += new System.EventHandler(this.saveConfigButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(307, 309);
+            this.Controls.Add(this.saveConfigButton);
             this.Controls.Add(this.triggerWordInput);
             this.Controls.Add(this.triggerWordButton);
             this.Controls.Add(this.triggerWordLabel);
@@ -250,6 +265,7 @@
         private System.Windows.Forms.Label triggerWordLabel;
         private System.Windows.Forms.Button triggerWordButton;
         private System.Windows.Forms.TextBox triggerWordInput;
+        private System.Windows.Forms.Button saveConfigButton;
     }
 }
 

@@ -48,18 +48,7 @@ namespace SpeechMacros {
         //public static List<Action> globalActionObjectList = new List<Action>();
         [STAThread]
         static void Main() {
-            string dir = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf("SpeechMacros")) + "SpeechMacros\\config.json";
-            //load file
-            try {
-                using (StreamReader file = File.OpenText(@dir)) {
-                    JsonSerializer serializer = new JsonSerializer();
-                    globalConfig = (Config)serializer.Deserialize(file, typeof(Config));
-                }
-            }
-            catch (Exception) {
-                Console.WriteLine("failed to load config file");
-            }
-
+            globalConfig = loadConfig();
             ////start building first action
 
             //Action a = new Action("begin");
@@ -81,12 +70,7 @@ namespace SpeechMacros {
             //globalActionObjectList.Add(a);
             //globalConfig = new Config("F1", false, globalActionObjectList);
             ////Save file
-            //using (StreamWriter file = File.CreateText(@dir)) {
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    //serialize object directly into file stream
-            //    serializer.Serialize(file, globalConfig);
-            //}
-
+            //saveConfig();
             ProcessStartInfo procStart = new ProcessStartInfo();
             speechRecognizer.SpeechRecognized += speechRecognizer_SpeechRecognized;
             speechRecognizer.SetInputToDefaultAudioDevice();
@@ -184,5 +168,29 @@ namespace SpeechMacros {
                 }
             }
         }
-     }
+
+        public static Config loadConfig() {
+            string dir = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf("SpeechMacros")) + "SpeechMacros\\config.json";
+            //load file
+            try {
+                using (StreamReader file = File.OpenText(@dir)) {
+                    JsonSerializer serializer = new JsonSerializer();
+                    return (Config)serializer.Deserialize(file, typeof(Config));
+                }
+            }
+            catch (Exception) {
+                Console.WriteLine("failed to load config file");
+                return null;
+            }
+        }
+        public static void saveConfig() {
+            string dir = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf("SpeechMacros")) + "SpeechMacros\\config.json";
+            //Save file
+            using (StreamWriter file = File.CreateText(@dir)) {
+                JsonSerializer serializer = new JsonSerializer();
+                //serialize object directly into file stream
+                serializer.Serialize(file, globalConfig);
+            }
+        }
+    }
 }
