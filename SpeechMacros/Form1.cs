@@ -99,6 +99,7 @@ namespace SpeechMacros {
             Action tmp = profileComboBox.SelectedItem as Action;
             programPathLabel.Text = "Program Path: " + tmp.programPath;
             programTargetLabel.Text = "Program Target: " + tmp.programTarget;
+            triggerWordLabel.Text = "Trigger Word: " + tmp.triggerWord;
             //if (tmp.programPath != "") {
             //    programPathLabel.Text = "Program Path: " + tmp.programPath;
             //}

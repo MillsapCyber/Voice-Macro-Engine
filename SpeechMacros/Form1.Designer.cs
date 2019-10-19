@@ -43,6 +43,9 @@
             this.programTargetInput = new System.Windows.Forms.TextBox();
             this.setProgramPathButton = new System.Windows.Forms.Button();
             this.setProgramTargetButton = new System.Windows.Forms.Button();
+            this.triggerWordLabel = new System.Windows.Forms.Label();
+            this.triggerWordButton = new System.Windows.Forms.Button();
+            this.triggerWordInput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -71,7 +74,7 @@
             // actionListBox
             // 
             this.actionListBox.FormattingEnabled = true;
-            this.actionListBox.Location = new System.Drawing.Point(127, 163);
+            this.actionListBox.Location = new System.Drawing.Point(127, 205);
             this.actionListBox.Name = "actionListBox";
             this.actionListBox.Size = new System.Drawing.Size(166, 95);
             this.actionListBox.TabIndex = 4;
@@ -171,12 +174,41 @@
             this.setProgramTargetButton.Text = "Set Target";
             this.setProgramTargetButton.UseVisualStyleBackColor = true;
             // 
+            // triggerWordLabel
+            // 
+            this.triggerWordLabel.AutoSize = true;
+            this.triggerWordLabel.ForeColor = System.Drawing.Color.White;
+            this.triggerWordLabel.Location = new System.Drawing.Point(22, 160);
+            this.triggerWordLabel.Name = "triggerWordLabel";
+            this.triggerWordLabel.Size = new System.Drawing.Size(75, 13);
+            this.triggerWordLabel.TabIndex = 16;
+            this.triggerWordLabel.Text = "Trigger Word: ";
+            // 
+            // triggerWordButton
+            // 
+            this.triggerWordButton.Location = new System.Drawing.Point(25, 176);
+            this.triggerWordButton.Name = "triggerWordButton";
+            this.triggerWordButton.Size = new System.Drawing.Size(98, 23);
+            this.triggerWordButton.TabIndex = 17;
+            this.triggerWordButton.Text = "Set Trigger Word";
+            this.triggerWordButton.UseVisualStyleBackColor = true;
+            // 
+            // triggerWordInput
+            // 
+            this.triggerWordInput.Location = new System.Drawing.Point(129, 179);
+            this.triggerWordInput.Name = "triggerWordInput";
+            this.triggerWordInput.Size = new System.Drawing.Size(166, 20);
+            this.triggerWordInput.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(307, 280);
+            this.ClientSize = new System.Drawing.Size(307, 309);
+            this.Controls.Add(this.triggerWordInput);
+            this.Controls.Add(this.triggerWordButton);
+            this.Controls.Add(this.triggerWordLabel);
             this.Controls.Add(this.setProgramTargetButton);
             this.Controls.Add(this.setProgramPathButton);
             this.Controls.Add(this.programTargetInput);
@@ -215,6 +247,9 @@
         private System.Windows.Forms.TextBox programTargetInput;
         private System.Windows.Forms.Button setProgramPathButton;
         private System.Windows.Forms.Button setProgramTargetButton;
+        private System.Windows.Forms.Label triggerWordLabel;
+        private System.Windows.Forms.Button triggerWordButton;
+        private System.Windows.Forms.TextBox triggerWordInput;
     }
 }
 
