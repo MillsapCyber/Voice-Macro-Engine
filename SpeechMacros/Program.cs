@@ -20,6 +20,7 @@ namespace SpeechMacros {
 
     }
     public class Action {
+        public string profileName { get; set; }
         public string triggerWord { get; set; }
         public string programPath { get; set; }
         public string programArgs { get; set; }
@@ -36,8 +37,12 @@ namespace SpeechMacros {
             programPath = "";
             actionList = new List<(actionType type, string aciton)>();
         }
+        public override string ToString() {
+            return profileName;
+        }
+
     }
-     class Program {
+    class Program {
         public static SpeechRecognitionEngine speechRecognizer = new SpeechRecognitionEngine();
         public static Config globalConfig;
         //public static List<Action> globalActionObjectList = new List<Action>();

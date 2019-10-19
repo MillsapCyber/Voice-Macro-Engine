@@ -15,11 +15,17 @@ namespace SpeechMacros {
                 Keys mykey = (Keys)kc.ConvertFromString(key);
                 gkh = new KeyHandler(mykey, this);
                 gkh.Register();
+                defaultHotkeyLabel.Text = "Default Hotkey: " + key;
             }
             catch (Exception) {
                 MessageBox.Show("Please try a real key");
             }
 
+        }
+        private static void toggleAlwaysListening(CheckBox box, Label label) {
+            Program.globalConfig.alwaysListening = !Program.globalConfig.alwaysListening;
+            box.Checked = Program.globalConfig.alwaysListening;
+            label.Text = Program.globalConfig.alwaysListening ? "Always Listening (On)" : "Always Listening (Off)";
         }
         public Form1() {    
             InitializeComponent();
@@ -34,7 +40,13 @@ namespace SpeechMacros {
             notifyIcon1.BalloonTipText = "Running in the background";
             notifyIcon1.Text = "Voice Macro Engine";
             notifyIcon1.Icon = this.Icon;
-
+            notifyIcon1.Visible = false;
+            alwaysListeningLabel.Text = Program.globalConfig.alwaysListening ? "Always Listening (On)" : "Always Listening (Off)";
+            defaultHotkeyLabel.Text = "Default Hotkey: " + Program.globalConfig.defaultHotkey;
+            foreach (var i in Program.globalConfig.actionObjectList) {
+                profileComboBox.Text = "Select a Macro";
+                profileComboBox.Items.Add(i);
+            }
         }
 
         private void HandleHotkey() {
@@ -75,11 +87,36 @@ namespace SpeechMacros {
             hotkeyInput.Text = "";
         }
 
-        private void button1_Click(object sender, EventArgs e) {
-            //KeysConverter kc = new KeysConverter();
-            //KeyHandler.injectKeystroke("Code", true, (byte)(Keys)kc.ConvertFromString("A"));
-            //Thread.Sleep(2000);
-            //KeyHandler.keyDown((byte)(Keys)kc.ConvertFromString("A"));
+        private void alwaysListeningLabel_Click(object sender, EventArgs e) {
+            toggleAlwaysListening(alwaysListeningCheckBox, alwaysListeningLabel);
+        }
+
+        private void alwaysListeningCheckBox_Click(object sender, EventArgs e) {
+            toggleAlwaysListening(alwaysListeningCheckBox, alwaysListeningLabel);
+        }
+
+        private void profileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            Action tmp = profileComboBox.SelectedItem as Action;
+            programPathLabel.Text = "Program Path: " + tmp.programPath;
+            programTargetLabel.Text = "Program Target: " + tmp.programTarget;
+            //if (tmp.programPath != "") {
+            //    programPathLabel.Text = "Program Path: " + tmp.programPath;
+            //}
+            //if (tmp.programTarget != "") {
+            //    programTargetLabel.Text = "Program Target: " + tmp.programTarget;
+            //}
+            actionListBox.Items.Clear();
+            foreach (var i in tmp.actionList) {
+                actionListBox.Items.Add(i);
+            }
+        }
+
+        private void programPathLabel_Click(object sender, EventArgs e) {
+
+        }
+
+        private void programPathInput_TextChanged(object sender, EventArgs e) {
+
         }
     }
 }

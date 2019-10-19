@@ -59,11 +59,6 @@ public class KeyHandler {
                 }
             }
             SetForegroundWindow(targetHandle);
-            if (getCurrentAppName() != appTargetName) { 
-                Console.WriteLine("Did not switch to target app correctly. Falling back to ALT + TAB");
-                SendKeys.SendWait("%{Tab}");
-                Thread.Sleep(100);
-            }
             //must let windows catch up, can't switch context instantly
             Thread.Sleep(10);
             if (isDown) {
@@ -72,17 +67,9 @@ public class KeyHandler {
             else {
                 keyUp(key);
             }
-            try { 
-                SetForegroundWindow(currentHandle);
-                if (getCurrentAppName() == appTargetName) { //Not sure why but sometimes this doesn't crash but still won't reset the original window
-                    Console.WriteLine("original app was not reset correctly. Falling back to ALT + TAB");
-                    Thread.Sleep(100);
-                    SendKeys.SendWait("%{Tab}");
-                }
-            } catch { //Not sure why this fails sometimes but if it does do it the stupid way
-                Thread.Sleep(100);
-                SendKeys.SendWait("%{Tab}");
-            }
+            //must let windows catch up, can't switch context instantly
+            Thread.Sleep(10);
+            SetForegroundWindow(currentHandle);
         }
     }
     [DllImport("user32.dll")]

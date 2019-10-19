@@ -3,6 +3,7 @@
     "alwaysListening": false,
     "actionObjectList": [
         {
+            "profileName": "Hello World",
             "triggerWord": "begin",
             "programPath": "",
             "programArgs": "",
@@ -23,6 +24,7 @@
             ]
         },
         {
+            "profileName": "Escape",
             "triggerWord": "end",
             "programPath": "",
             "programArgs": "",
@@ -35,6 +37,7 @@
             ]
         },
         {
+            "profileName": "Test",
             "triggerWord": "test",
             "programPath": "",
             "programArgs": "",
@@ -47,6 +50,7 @@
             ]
         },
         {
+            "profileName": "Telegram",
             "triggerWord": "telegram",
             "programPath": "C:\\Users\\jammi\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe",
             "programArgs": "",
