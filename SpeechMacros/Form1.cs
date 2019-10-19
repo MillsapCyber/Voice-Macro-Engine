@@ -112,14 +112,6 @@ namespace SpeechMacros {
             }
         }
 
-        private void programPathLabel_Click(object sender, EventArgs e) {
-
-        }
-
-        private void programPathInput_TextChanged(object sender, EventArgs e) {
-
-        }
-
         private void setProgramPathButton_Click(object sender, EventArgs e) {
             try {
                 if (programPathInput.Text == "") {

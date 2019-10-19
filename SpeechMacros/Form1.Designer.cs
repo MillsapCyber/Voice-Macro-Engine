@@ -130,7 +130,6 @@
             this.programPathLabel.Size = new System.Drawing.Size(74, 13);
             this.programPathLabel.TabIndex = 10;
             this.programPathLabel.Text = "Program Path:";
-            this.programPathLabel.Click += new System.EventHandler(this.programPathLabel_Click);
             // 
             // programPathInput
             // 
@@ -138,7 +137,6 @@
             this.programPathInput.Name = "programPathInput";
             this.programPathInput.Size = new System.Drawing.Size(166, 20);
             this.programPathInput.TabIndex = 11;
-            this.programPathInput.TextChanged += new System.EventHandler(this.programPathInput_TextChanged);
             // 
             // programTargetLabel
             // 
@@ -206,7 +204,7 @@
             // 
             // saveConfigButton
             // 
-            this.saveConfigButton.Location = new System.Drawing.Point(23, 274);
+            this.saveConfigButton.Location = new System.Drawing.Point(25, 274);
             this.saveConfigButton.Name = "saveConfigButton";
             this.saveConfigButton.Size = new System.Drawing.Size(75, 23);
             this.saveConfigButton.TabIndex = 19;
